@@ -1,9 +1,9 @@
 <?php 
 
-$uri = "103.129.221.31";
-$user = "idvaccid_data";
-$pass = "59N%aebtaVXT";
-$db = "idvaccid_data";
+$uri = "";
+$user = "";
+$pass = "";
+$db = "";
 
 $con = mysqli_connect($uri, $user, $pass);
 if(!$con){
