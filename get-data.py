@@ -1,31 +1,18 @@
-import urllib.request, subprocess, random
+import urllib.request, subprocess, random, json
 
 # VATSIM Data Link variable
 vatsimDataLink = []
+rawData = None
 
-req = urllib.request.Request(
-    "http://status.vatsim.net/status.txt",
-    data=None, 
-    headers={
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-    }
-)
+urllib.request.urlretrieve('https://status.vatsim.net/status.json', 'status.json')
 
-# Iterate over data
-for line in urllib.request.urlopen(req):
-    
-    # Decode bytes to string
-    # With that splitlines() function
-    line = line.decode("utf-8").splitlines()
-    
-    # Check if json3 exists
-    if "json3=" in line[0]:
-        # If exists, split data and get the link
-        vatsimDataLink.append(line[0].split("=")[1])
-    
+with open("status.json", "r", errors="ignore") as jData:
+    rawData = json.load(jData)
+
+datav3 = rawData["data"]["v3"]
 
 # Get random link to download
-linkToDownload = random.choice(vatsimDataLink)
+linkToDownload = random.choice(datav3)
 
 # Download the file
 urllib.request.urlretrieve(linkToDownload, 'vatsim-data.json')
